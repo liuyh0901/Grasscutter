@@ -67,4 +67,13 @@ mongod.exe
 /*.sh
 language/
 languages/
-gacha_mappings.js
+gacha-mapping.js
+mappings.js
+BuildConfig.java
+
+# lombok
+/.apt_generated/
+
+# macOS
+.DS_Store
+data/hk4e/announcement/
