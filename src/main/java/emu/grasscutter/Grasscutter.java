@@ -6,6 +6,7 @@ import java.util.Calendar;
 import emu.grasscutter.auth.AuthenticationSystem;
 import emu.grasscutter.auth.DefaultAuthentication;
 import emu.grasscutter.command.CommandMap;
+import emu.grasscutter.game.managers.EnergyManager.EnergyManager;
 import emu.grasscutter.game.managers.StaminaManager.StaminaManager;
 import emu.grasscutter.plugin.PluginManager;
 import emu.grasscutter.plugin.api.ServerHook;
@@ -14,6 +15,7 @@ import emu.grasscutter.server.http.HttpServer;
 import emu.grasscutter.server.http.dispatch.DispatchHandler;
 import emu.grasscutter.server.http.handlers.*;
 import emu.grasscutter.server.http.dispatch.RegionHandler;
+import emu.grasscutter.server.http.documentation.DocumentationServerHandler;
 import emu.grasscutter.utils.ConfigContainer;
 import emu.grasscutter.utils.Utils;
 import org.jline.reader.EndOfFileException;
@@ -105,6 +107,7 @@ public final class Grasscutter {
 		Grasscutter.updateDayOfWeek();
 		ResourceLoader.loadAll();
 		ScriptLoader.init();
+		EnergyManager.initialize();
 	
 		// Initialize database.
 		DatabaseManager.initialize();
@@ -129,6 +132,7 @@ public final class Grasscutter {
 		httpServer.addRouter(AnnouncementsHandler.class);
 		httpServer.addRouter(DispatchHandler.class);
 		httpServer.addRouter(GachaHandler.class);
+		httpServer.addRouter(DocumentationServerHandler.class);
 		
 		// TODO: find a better place?
 		StaminaManager.initialize();

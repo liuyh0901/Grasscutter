@@ -84,7 +84,6 @@ public class ConfigContainer {
         public String resources = "./resources/";
         public String data = "./data/";
         public String packets = "./packets/";
-        public String keys = "./keys/";
         public String scripts = "./resources/scripts/";
         public String plugins = "./plugins/";
 
@@ -105,11 +104,13 @@ public class ConfigContainer {
     public static class Language {
         public Locale language = Locale.getDefault();
         public Locale fallback = Locale.US;
+        public String document = "EN";
     }
 
     public static class Account {
         public boolean autoCreate = false;
         public String[] defaultPermissions = {};
+        public int maxPlayer = -1;
     }
 
     /* Server options. */
@@ -175,6 +176,7 @@ public class ConfigContainer {
         public boolean watchGachaConfig = false;
         public boolean enableShopItems = true;
         public boolean staminaUsage = true;
+        public boolean energyUsage = false;
         public Rates rates = new Rates();
 
         public static class InventoryLimits {

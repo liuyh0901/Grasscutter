@@ -29,18 +29,7 @@ import static emu.grasscutter.utils.Language.translate;
  * Handles all gacha-related HTTP requests.
  */
 public final class GachaHandler implements Router {
-    private final String gachaMappings;
-    
-    public GachaHandler() {
-        this.gachaMappings = Utils.toFilePath(DATA("/gacha/mappings.js"));
-        if(!(new File(this.gachaMappings).exists())) {
-            try {
-                Tools.createGachaMapping(this.gachaMappings);
-            } catch (Exception exception) {
-                Grasscutter.getLogger().warn("Failed to create gacha mappings.", exception);
-            }
-        }
-    }
+    public static final String gachaMappings = DATA(Utils.toFilePath("gacha/mappings.js"));
     
     @Override public void applyRoutes(Express express, Javalin handle) {
         express.get("/gacha", GachaHandler::gachaRecords);
@@ -63,7 +52,7 @@ public final class GachaHandler implements Router {
             response.status(403).send("Requested account was not found");
             return;
         }
-        Player player = Grasscutter.getGameServer().getPlayerByUid(account.getPlayerUid());
+        Player player = Grasscutter.getGameServer().getPlayerByAccountId(account.getId());
         if (player == null) {
             response.status(403).send("No player associated with requested account");
             return;
@@ -99,7 +88,7 @@ public final class GachaHandler implements Router {
             response.status(403).send("Requested account was not found");
             return;
         }
-        Player player = Grasscutter.getGameServer().getPlayerByUid(account.getPlayerUid());
+        Player player = Grasscutter.getGameServer().getPlayerByAccountId(account.getId());
         if (player == null) {
             response.status(403).send("No player associated with requested account");
             return;
@@ -115,9 +104,9 @@ public final class GachaHandler implements Router {
                 .replace("{{LANGUAGE}}", Utils.getLanguageCode(account.getLocale()));
 
         // Get the banner info for the banner we want.
-        int gachaType = Integer.parseInt(request.query("gachaType"));
+        int scheduleId = Integer.parseInt(request.query("scheduleId"));
         GachaManager manager = Grasscutter.getGameServer().getGachaManager();
-        GachaBanner banner = manager.getGachaBanners().get(gachaType);
+        GachaBanner banner = manager.getGachaBanners().get(scheduleId);
 
         // Add 5-star items.
         Set<String> fiveStarItems = new LinkedHashSet<>();
